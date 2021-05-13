@@ -1,4 +1,4 @@
-package space.buzzles.serverstresstool
+package me.gabber235.serverstresstool
 
 import org.apache.commons.cli.*
 import kotlin.system.exitProcess

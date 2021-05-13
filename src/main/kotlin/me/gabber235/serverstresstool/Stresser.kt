@@ -1,4 +1,4 @@
-package space.buzzles.serverstresstool
+package me.gabber235.serverstresstool
 
 import com.github.steveice10.mc.protocol.MinecraftProtocol
 import com.github.steveice10.mc.protocol.data.game.entity.player.HandPreference
