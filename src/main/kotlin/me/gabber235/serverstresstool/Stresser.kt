@@ -7,10 +7,9 @@ import com.github.steveice10.mc.protocol.packet.ingame.client.ClientSettingsPack
 import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerPositionPacket
 import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientTeleportConfirmPacket
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket
-import com.github.steveice10.packetlib.Client
 import com.github.steveice10.packetlib.event.session.*
 import com.github.steveice10.packetlib.packet.Packet
-import com.github.steveice10.packetlib.tcp.TcpSessionFactory
+import com.github.steveice10.packetlib.tcp.TcpClientSession
 import kotlinx.coroutines.*
 import java.util.concurrent.ThreadLocalRandom
 import java.util.concurrent.atomic.AtomicInteger
@@ -48,8 +47,9 @@ class Stresser
 
   private fun joinserver(id: Int) {
     val protocol = MinecraftProtocol(nick + id)
-    val client = Client(serverAdress, port, protocol, TcpSessionFactory())
-    client.session.addListener(object : SessionAdapter() {
+
+    val session = TcpClientSession(serverAdress, port, protocol)
+    session.addListener(object : SessionAdapter() {
       var scheduled = false
       var x = 0f
       var z = 0f
@@ -65,9 +65,13 @@ class Stresser
           if (!scheduled) {
             session.send(
               ClientSettingsPacket(
-                "en_US", 8,
-                ChatVisibility.FULL, true,
-                ArrayList(), HandPreference.RIGHT_HAND
+                "en_US",
+                8,
+                ChatVisibility.FULL,
+                true,
+                ArrayList(),
+                HandPreference.RIGHT_HAND,
+                false,
               )
             )
             GlobalScope.launch {
@@ -79,7 +83,7 @@ class Stresser
                     .nextBoolean()
                 ) Random.nextFloat() * spread else Random.nextFloat() * -spread
 
-                session.send(ClientPlayerPositionPacket(false, x.toDouble(), 40.0, z.toDouble()))
+                session.send(ClientPlayerPositionPacket(false, x.toDouble(), 41.0, z.toDouble()))
 
                 delay(100L)
               }
@@ -97,6 +101,6 @@ class Stresser
         }
       }
     })
-    client.session.connect(true)
+    session.connect(true)
   }
 }

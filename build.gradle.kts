@@ -3,7 +3,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
   id("com.github.johnrengelman.shadow") version "5.2.0"
   java
-  kotlin("jvm") version "1.4.32"
+  kotlin("jvm") version "1.5.31"
 }
 
 group = "com.jakubtomana.minecraft.serverstresstool"
@@ -16,11 +16,11 @@ repositories {
 }
 
 dependencies {
-  testImplementation("junit:junit:4.12")
-  implementation("com.github.Eoghanmc22:McPacketLib:e6af0f7876")
-  implementation("com.github.Eoghanmc22:packets:6383f00cff")
+  testImplementation("junit:junit:4.13.2")
+  implementation("com.github.GeyserMC:PacketLib:2.0")
+  implementation("com.github.Steveice10:MCProtocolLib:1.17.1-1")
   implementation("commons-cli:commons-cli:1.4")
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 }
 
 tasks.named<ShadowJar>("shadowJar") {
